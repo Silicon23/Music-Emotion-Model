@@ -2,5 +2,6 @@
 *.mp3
 *.txt
 *.DS_store
+*.pyc
 PMEmo2019/EDA/*.csv
 PMEmo2019/features/*.csv
