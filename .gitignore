@@ -1,0 +1,6 @@
+*.lrc
+*.mp3
+*.txt
+*.DS_store
+PMEmo2019/EDA/*.csv
+PMEmo2019/features/*.csv
