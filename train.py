@@ -16,6 +16,8 @@ from byol_a.common import *
 from byol_a.augmentations import PrecomputedNorm
 from byol_a.dataset import WaveInLMSOutDataset
 
+from dataset import Wav2EmbeddingDataset
+
 device = torch.device('mps')
 dtype = torch.float32
 cfg = load_yaml_config("byol-a/config.yaml")
@@ -26,17 +28,27 @@ labels = pd.read_csv(os.path.join(os.path.dirname(__file__), "PMEmo2019", "annot
 
 files = [os.path.join(os.path.dirname(__file__), "PMEmo2019", "wav", f"{id}.wav") for id in labels['musicId'].values]
 
-ds = WaveInLMSOutDataset(cfg, files, labels=labels[['Arousal(mean)', 'Valence(mean)']].to_numpy(), tfms=PrecomputedNorm([-2.1819685, 3.0303779]), use_librosa=True)
+ds = Wav2EmbeddingDataset(
+    cfg,
+    files,
+    labels = labels[['Arousal(mean)', 'Valence(mean)']].to_numpy(),
+    tfms = PrecomputedNorm([-2.1819685, 3.0303779]),
+    use_librosa = True, 
+    device = device,
+    embedding_dim = cfg.feature_d,
+    encoder_weights = "byol-a/pretrained_weights/AudioNTT2020-BYOLA-64x96d2048.pth",
+    sequence_max_length = 30
+)
 train_size = round(0.9 * len(ds))
 test_size = len(ds) - train_size
 train_ds, test_ds = random_split(ds, [train_size, test_size])
 train_dl = DataLoader(train_ds, batch_size=16, pin_memory=False, shuffle=True, drop_last=False)
 test_dl = DataLoader(test_ds, batch_size=len(test_ds), pin_memory=False, shuffle=False, drop_last=False)
 
-model = MusicEmotionRecognition(device, embedding_dim=cfg.feature_d, encoder_weights="byol-a/pretrained_weights/AudioNTT2020-BYOLA-64x96d2048.pth").to(device)
+model = MusicEmotionRecognition().to(device)
 model.train()
 
-params = model.emotion_layer.parameters()
+params = model.parameters()
 optimizer = torch.optim.Adam(params, lr=5e-5)
 criterion = torch.nn.MSELoss()
 
