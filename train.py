@@ -26,7 +26,7 @@ labels = pd.read_csv(os.path.join(os.path.dirname(__file__), "PMEmo2019", "annot
 
 files = [os.path.join(os.path.dirname(__file__), "PMEmo2019", "wav", f"{id}.wav") for id in labels['musicId'].values]
 
-ds = WaveInLMSOutDataset(cfg, files, labels=labels[['Arousal(mean)', 'Valence(mean)']].to_numpy(), tfms=PrecomputedNorm([2.430965, 2.7521515]))
+ds = WaveInLMSOutDataset(cfg, files, labels=labels[['Arousal(mean)', 'Valence(mean)']].to_numpy(), tfms=PrecomputedNorm([-2.1819685, 3.0303779]), use_librosa=True)
 train_size = round(0.9 * len(ds))
 test_size = len(ds) - train_size
 train_ds, test_ds = random_split(ds, [train_size, test_size])
