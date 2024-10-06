@@ -19,7 +19,11 @@ class MusicEmotionRecognition(nn.Module):
         for param in self.encoder.parameters():
             param.requires_grad = False
         self.emotion_layer = nn.Sequential(
-            nn.Linear(embedding_dim, 32),
+            nn.Linear(embedding_dim, 1024),
+            nn.ReLU(),
+            nn.Linear(1024, 128),
+            nn.ReLU(),
+            nn.Linear(128, 32),
             nn.ReLU(),
             nn.Linear(32, 2),
             nn.Sigmoid()
