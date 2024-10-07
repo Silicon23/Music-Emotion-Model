@@ -8,7 +8,7 @@ class MusicEmotionRecognition(nn.Module):
     def __init__(self, embedding_dim = 2048):
         super(MusicEmotionRecognition, self).__init__()
         self.transformer_layer = nn.TransformerEncoder(
-            nn.TransformerEncoderLayer(d_model=embedding_dim, nhead=8, dim_feedforward=2048, activation='relu'),
+            nn.TransformerEncoderLayer(d_model=embedding_dim, nhead=8, dim_feedforward=2048, activation='relu', batch_first=True),
             num_layers=2
         )
         self.output_layer = nn.Sequential(
