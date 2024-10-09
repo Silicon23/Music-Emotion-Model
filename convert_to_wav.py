@@ -1,8 +1,8 @@
 """
-Convert MP3 files to WAV format using ffmpeg and resamples to the sampling rate in byol-a/config.yaml.
+Convert files to WAV format using ffmpeg and resamples to the sampling rate in byol-a/config.yaml.
 
 Usage:
-    python python mp3_to_wav.py /path/to/mp3/directory /path/to/output/directory
+    ```python -u convert_to_wav.py /path/to/input/directory /path/to/output/directory```
 """
 import os
 import ffmpeg
@@ -10,7 +10,7 @@ import yaml
 import argparse
 from tqdm import tqdm
 
-def convert_mp3_to_wav(input_dir, output_dir):
+def convert_to_wav(input_dir, output_dir):
     # Load the sample rate from BYOL-A YAML configuration file
     with open('./byol-a/config.yaml', 'r') as file:
         config = yaml.safe_load(file)
@@ -20,15 +20,15 @@ def convert_mp3_to_wav(input_dir, output_dir):
     os.makedirs(output_dir, exist_ok=True)
 
     # Get list of mp3 files
-    mp3_files = [f for f in os.listdir(input_dir) if f.endswith('.mp3')]
+    files = [f for f in os.listdir(input_dir) if f.endswith('.mp3') or f.endswith('.mp4') or f.endswith('.wav')]
 
-    # Iterate over all mp3 files in the input directory with a progress bar
-    for filename in tqdm(mp3_files, desc="Converting MP3 to WAV"):
+    # Iterate over all files in the input directory with a progress bar
+    for filename in tqdm(files, desc="Converting to WAV"):
         input_path = os.path.join(input_dir, filename)
         output_filename = os.path.splitext(filename)[0] + '.wav'
         output_path = os.path.join(output_dir, output_filename)
 
-        # Convert mp3 to wav using ffmpeg
+        # Convert to wav using ffmpeg
         (
             ffmpeg
             .input(input_path)
@@ -42,4 +42,4 @@ if __name__ == "__main__":
     parser.add_argument('output_dir', type=str, help='Directory to save converted WAV files')
     args = parser.parse_args()
 
-    convert_mp3_to_wav(args.input_dir, args.output_dir)
+    convert_to_wav(args.input_dir, args.output_dir)
