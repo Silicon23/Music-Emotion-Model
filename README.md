@@ -1,6 +1,6 @@
 # Music-Emotion-Model
 
-This is an implementation [BYOL for Audio (BYOL-A)](https://github.com/nttcslab/byol-a) trained from scratch on [PMEmo-2019](https://www.next.zju.edu.cn/archive/pmemo/) for Music Emotion Recognition (MER) tasks.
+This is an implementation of [BYOL for Audio (BYOL-A)](https://github.com/nttcslab/byol-a) trained from scratch on [PMEmo-2019](https://www.next.zju.edu.cn/archive/pmemo/) for Music Emotion Recognition (MER) tasks.
 
 **Some important config settings**
 ```python
