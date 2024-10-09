@@ -1,6 +1,14 @@
 # Music-Emotion-Model
 
-This is an implementation [BYOL for Audio (BYOL-A)](https://github.com/nttcslab/byol-a) trained from scratch on [PMEmo-2019](https://www.next.zju.edu.cn/archive/pmemo/).
+This is an implementation [BYOL for Audio (BYOL-A)](https://github.com/nttcslab/byol-a) trained from scratch on [PMEmo-2019](https://www.next.zju.edu.cn/archive/pmemo/) for Music Emotion Recognition (MER) tasks.
+
+**Some important config settings**
+```python
+sample_rate = 16000 # 16k Hz
+unit_sec = 0.95 # unit embedding length for byol-a model
+max_sequence_length = 30 # embedding sequence length for transformers layers
+```
+See more detailed settings in [config.yaml](./byol-a/config.yaml)
 
 # References
 
